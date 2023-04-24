@@ -1,6 +1,5 @@
 import faker from '@faker-js/faker';
 import { signInSchema } from '@/schemas';
-console.log('oi')
 
 describe('signInSchema', () => {
   const generateValidInput = () => ({
