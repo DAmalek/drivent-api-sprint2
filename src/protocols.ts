@@ -1,3 +1,4 @@
+import { type } from 'os';
 import { Payment, Ticket } from '@prisma/client';
 
 export type ApplicationError = {
