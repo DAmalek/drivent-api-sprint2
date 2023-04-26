@@ -15,7 +15,12 @@ async function verifyTicketAndEnrollment(userId: number) {
 }
 
 async function getHotels(userId: number) {
-  await verifyTicketAndEnrollment(userId);
+  try {
+    await verifyTicketAndEnrollment(userId);
+  } catch (error) {
+    if (error.name === 'NotFoundError') throw notFoundError();
+    if (error.name === 'PaymentRequiredError') throw paymentRequiredError();
+  }
 
   const hotels = await hotelsRepository.findHotels();
   if (hotels.length === 0) throw notFoundError();
@@ -24,12 +29,16 @@ async function getHotels(userId: number) {
 }
 
 async function getOneHotel(userId: number, hotelId: number) {
-  await verifyTicketAndEnrollment(userId);
+  try {
+    await verifyTicketAndEnrollment(userId);
+  } catch (error) {
+    if (error.name === 'NotFoundError') throw notFoundError();
+    if (error.name === 'PaymentRequiredError') throw paymentRequiredError();
+  }
 
   const hotel = await hotelsRepository.findFirstHotel(hotelId);
   if (!hotel) throw notFoundError();
 
   return hotel;
 }
-
 export default { getHotels, getOneHotel };
